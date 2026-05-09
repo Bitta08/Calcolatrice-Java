@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 public class GUI extends javax.swing.JFrame {
     //TODO: fix bug se premi uguale o segno consecutivamente, fix bug se premi - o / consecutivamente, fix operazioni dopo scritta "errore"
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI.class.getName());
-    private final int MAXLEN = 12;
+    private final int MAXLEN = 11;
     private String numVS = "";
     private Double op1;
     private Double op2;
@@ -115,7 +115,7 @@ public class GUI extends javax.swing.JFrame {
         b00.setText("Ans");
         b00.setFocusPainted(false);
         b00.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        b00.addActionListener(this::b00ActionPerformed);
+        b00.addActionListener(this::bANSActionPerformed);
 
         b8.setBackground(new java.awt.Color(50, 50, 50));
         b8.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
@@ -200,7 +200,7 @@ public class GUI extends javax.swing.JFrame {
         bDP.setBackground(new java.awt.Color(50, 50, 50));
         bDP.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
         bDP.setForeground(new java.awt.Color(240, 240, 240));
-        bDP.setText(".");
+        bDP.setText(",");
         bDP.setFocusPainted(false);
         bDP.setMargin(new java.awt.Insets(2, 2, 2, 2));
         bDP.addActionListener(this::bDPActionPerformed);
@@ -340,12 +340,13 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText(numVS);
     }//GEN-LAST:event_b9ActionPerformed
 
-    private void b00ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b00ActionPerformed
+    private void bANSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bANSActionPerformed
         if(lockBT!=2) return;
         df = new DecimalFormat("#.##########");
         numVS = df.format(res);
+        if(numVS.length()>MAXLEN) numVS = String.format("%.6E", res);
         jLabel1.setText(numVS);
-    }//GEN-LAST:event_b00ActionPerformed
+    }//GEN-LAST:event_bANSActionPerformed
     private void b8ActionPerforme(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b8ActionPerforme
         if(numVS.length()>MAXLEN || lockBT!=2) return;
         numVS += "8";
