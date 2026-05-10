@@ -46,6 +46,7 @@ public class GUI extends javax.swing.JFrame {
         bEQ = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(null);
 
         jLabel1.setBackground(new java.awt.Color(20, 20, 20));
         jLabel1.setFont(new java.awt.Font("IBM Plex Sans", 0, 36)); // NOI18N
@@ -342,9 +343,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void bANSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bANSActionPerformed
         if(lockBT!=2) return;
-        df = new DecimalFormat("#.##########");
-        numVS = df.format(res);
-        if(numVS.length()>MAXLEN) numVS = String.format("%.6E", res);
+        numVS = formatNumber(res);
         jLabel1.setText(numVS);
     }//GEN-LAST:event_bANSActionPerformed
     private void b8ActionPerforme(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b8ActionPerforme
@@ -426,9 +425,7 @@ public class GUI extends javax.swing.JFrame {
             lockBT=0;
             return;
         }
-        df = new DecimalFormat("#.##########");
-        numVS = df.format(res);
-        if(numVS.length()>MAXLEN) numVS = String.format("%.6E", res);
+        numVS = formatNumber(res);
         jLabel1.setText(numVS);
         lockBT=1;
         op1 = res;
@@ -445,11 +442,23 @@ public class GUI extends javax.swing.JFrame {
 
     private void bSTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSTActionPerformed
         if(lockBT == 0) return;
-        lockBT=2;
-        if(!numVS.equals("")) op1 = Double.valueOf(jLabel1.getText().replace(",", "."));
-        op = 2;
-        numVS = "";
-        jLabel1.setText("0");
+        
+        if(numVS.equals("")) // - come segno
+        {
+            if(lockBT!=2) return;
+            numVS += "-";
+            jLabel1.setText(numVS);
+            return;
+        }
+        
+        if(!numVS.equals("-")) // - come operatore
+        {
+            lockBT=2;
+            op1 = Double.valueOf(jLabel1.getText().replace(",", "."));
+            op = 2;
+            numVS = "";       
+            jLabel1.setText("0");
+        }
     }//GEN-LAST:event_bSTActionPerformed
 
     private void bMPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMPActionPerformed
@@ -466,9 +475,43 @@ public class GUI extends javax.swing.JFrame {
         numVS += ","; 
         jLabel1.setText(numVS); 
     }//GEN-LAST:event_bDPActionPerformed
-    /**
-     * @param args the command line arguments
-     */
+
+    private String formatNumber(Double numero) {
+        if (numero == 0) return "0";
+
+        int esponente = (int) Math.floor(Math.log10(Math.abs(numero)));
+
+        int espMax = 9;
+
+        if (Math.abs(esponente) > espMax) {
+            return String.format("%.2E", numero); // da 10^7 not. scientifica
+        } else {
+            DecimalFormat df = new DecimalFormat("#.#########"); //altrimenti tronca decimali
+            String risultato = df.format(numero);
+
+            if (risultato.length() > MAXLEN) {
+                long parteIntera = Math.abs(numero.longValue());
+                int lunghezzaIntera = String.valueOf(parteIntera).length(); //ottengo dim della parte intera del numero
+
+                if (numero < 0) lunghezzaIntera++; //conto +1 se negativo (per il segno meno)
+
+                int decimaliPossibili = MAXLEN - lunghezzaIntera - 1; //spazio disponibile per decimali
+
+                if (decimaliPossibili > 0) {
+                    DecimalFormat dfTronca = new DecimalFormat("#." + "#".repeat(decimaliPossibili));
+                    return dfTronca.format(numero).replace(".", ",");
+                } else {
+                    if (lunghezzaIntera <= MAXLEN) {
+                        return String.valueOf(numero.longValue()); //solo parte intera
+                    } else {
+                        return String.format("%.2E", numero).replace(".", ","); //se dovesse superare MAXLEN -> not.scientifica
+                    }
+                }
+            }
+            return risultato;
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
