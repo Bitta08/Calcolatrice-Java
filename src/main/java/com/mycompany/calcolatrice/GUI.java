@@ -9,13 +9,13 @@ public class GUI extends javax.swing.JFrame {
     private String numVS = "";
     private Double op1;
     private Double op2;
-    private DecimalFormat df;
     private Double res = 0.0;
     private int op = 0; //0: DV; 1: MP; 2: ST; 3: SM;
     private int lockBT = 2; //0: tutto tranne C, 1: tutto tranne C,= e +-*/, 2: tutto
     
     public GUI() {
         initComponents();
+        this.getContentPane().setBackground(new java.awt.Color(20, 20, 20));
     }
 
     @SuppressWarnings("unchecked")
@@ -24,35 +24,38 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        bC = new javax.swing.JButton();
-        bCE = new javax.swing.JButton();
-        bDL = new javax.swing.JButton();
-        bDV = new javax.swing.JButton();
-        b7 = new javax.swing.JButton();
-        b4 = new javax.swing.JButton();
-        b1 = new javax.swing.JButton();
-        b00 = new javax.swing.JButton();
-        b8 = new javax.swing.JButton();
-        b9 = new javax.swing.JButton();
-        bMP = new javax.swing.JButton();
-        b5 = new javax.swing.JButton();
-        b6 = new javax.swing.JButton();
-        bST = new javax.swing.JButton();
-        b2 = new javax.swing.JButton();
-        b3 = new javax.swing.JButton();
-        bSM = new javax.swing.JButton();
-        b0 = new javax.swing.JButton();
-        bDP = new javax.swing.JButton();
-        bEQ = new javax.swing.JButton();
+        bC = new RoundedButton("C");
+        bCE = new RoundedButton("CE");
+        bDL = new RoundedButton("DL");
+        bDV = new RoundedButton("÷");
+        b7 = new RoundedButton("7");
+        b4 = new RoundedButton("4");
+        b1 = new RoundedButton("-");
+        b00 = new RoundedButton("Ans");
+        b8 = new RoundedButton("8");
+        b9 = new RoundedButton("9");
+        bMP = new RoundedButton("×");
+        b5 = new RoundedButton("5");
+        b6 = new RoundedButton("6");
+        bST = new RoundedButton("−");
+        b2 = new RoundedButton("2");
+        b3 = new RoundedButton("2");
+        bSM = new RoundedButton("+");
+        b0 = new RoundedButton("0");
+        bDP = new RoundedButton(",");
+        bEQ = new RoundedButton("=");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(null);
+        setBackground(new java.awt.Color(80, 80, 80));
 
-        jLabel1.setBackground(new java.awt.Color(20, 20, 20));
+        jLabel1.setBackground(new java.awt.Color(50, 50, 50));
         jLabel1.setFont(new java.awt.Font("IBM Plex Sans", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(50, 50, 50));
+        jLabel1.setForeground(new java.awt.Color(240, 240, 240));
         jLabel1.setText("0");
         jLabel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(50, 50, 50), 2, true), javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0)));
+        jLabel1.setOpaque(true);
+
+        jPanel1.setBackground(new java.awt.Color(20, 20, 20));
 
         bC.setBackground(new java.awt.Color(50, 50, 50));
         bC.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
@@ -81,7 +84,7 @@ public class GUI extends javax.swing.JFrame {
         bDV.setBackground(new java.awt.Color(50, 50, 50));
         bDV.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
         bDV.setForeground(new java.awt.Color(240, 240, 240));
-        bDV.setText("/");
+        bDV.setText("÷");
         bDV.setFocusPainted(false);
         bDV.setMargin(new java.awt.Insets(2, 2, 2, 2));
         bDV.addActionListener(this::bDVActionPerformed);
@@ -137,7 +140,7 @@ public class GUI extends javax.swing.JFrame {
         bMP.setBackground(new java.awt.Color(50, 50, 50));
         bMP.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
         bMP.setForeground(new java.awt.Color(240, 240, 240));
-        bMP.setText("X");
+        bMP.setText("×");
         bMP.setFocusPainted(false);
         bMP.setMargin(new java.awt.Insets(2, 2, 2, 2));
         bMP.addActionListener(this::bMPActionPerformed);
@@ -161,7 +164,7 @@ public class GUI extends javax.swing.JFrame {
         bST.setBackground(new java.awt.Color(50, 50, 50));
         bST.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
         bST.setForeground(new java.awt.Color(240, 240, 240));
-        bST.setText("-");
+        bST.setText("−");
         bST.setFocusPainted(false);
         bST.setMargin(new java.awt.Insets(2, 2, 2, 2));
         bST.addActionListener(this::bSTActionPerformed);
@@ -206,7 +209,7 @@ public class GUI extends javax.swing.JFrame {
         bDP.setMargin(new java.awt.Insets(2, 2, 2, 2));
         bDP.addActionListener(this::bDPActionPerformed);
 
-        bEQ.setBackground(new java.awt.Color(50, 50, 50));
+        bEQ.setBackground(new java.awt.Color(180, 162, 235));
         bEQ.setFont(new java.awt.Font("IBM Plex Sans", 0, 35)); // NOI18N
         bEQ.setForeground(new java.awt.Color(240, 240, 240));
         bEQ.setText("=");
@@ -289,8 +292,8 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -298,7 +301,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
